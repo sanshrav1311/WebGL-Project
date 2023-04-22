@@ -23,13 +23,33 @@ scene.add(axesHelper);
 
 // camera.position.z = 5;
 // camera.position.y = 2;
-camera.position.set(0, 2, 5);
+camera.position.set(-10, 30, 30);
 orbit.update();
 
 const boxGeometry = new THREE.BoxGeometry();
 const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const box = new THREE.Mesh(boxGeometry, boxMaterial);
 scene.add(box);
+
+const planeGeometry = new THREE.PlaneGeometry(30, 30);
+const planeMaterial = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  side: THREE.DoubleSide,
+});
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+scene.add(plane);
+plane.rotation.x = -0.5 * Math.PI; //to match the grif with plane
+
+const gridHelper = new THREE.GridHelper(30);
+scene.add(gridHelper);
+
+const sphereGeometry = new THREE.SphereGeometry(4, 50, 50); // radius, linesegments in width and height
+const sphereMaterial = new THREE.MeshBasicMaterial({
+  color: 0x00ffff,
+  wireframe: true,
+});
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+scene.add(sphere);
 
 // box.rotation.x = 5;
 // box.rotation.y = 5;

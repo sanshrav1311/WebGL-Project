@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"60EJw":[function(require,module,exports) {
+})({"hVW7Y":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -570,7 +570,7 @@ const axesHelper = new _three.AxesHelper(5); //parameter is axis length
 scene.add(axesHelper);
 // camera.position.z = 5;
 // camera.position.y = 2;
-camera.position.set(0, 2, 5);
+camera.position.set(-10, 30, 30);
 orbit.update();
 const boxGeometry = new _three.BoxGeometry();
 const boxMaterial = new _three.MeshBasicMaterial({
@@ -578,6 +578,23 @@ const boxMaterial = new _three.MeshBasicMaterial({
 });
 const box = new _three.Mesh(boxGeometry, boxMaterial);
 scene.add(box);
+const planeGeometry = new _three.PlaneGeometry(30, 30);
+const planeMaterial = new _three.MeshBasicMaterial({
+    color: 0xffffff,
+    side: _three.DoubleSide
+});
+const plane = new _three.Mesh(planeGeometry, planeMaterial);
+scene.add(plane);
+plane.rotation.x = -0.5 * Math.PI; //to match the grif with plane
+const gridHelper = new _three.GridHelper(30);
+scene.add(gridHelper);
+const sphereGeometry = new _three.SphereGeometry(4, 50, 50); // radius, linesegments in width and height
+const sphereMaterial = new _three.MeshBasicMaterial({
+    color: 0x00ffff,
+    wireframe: true
+});
+const sphere = new _three.Mesh(sphereGeometry, sphereMaterial);
+scene.add(sphere);
 // box.rotation.x = 5;
 // box.rotation.y = 5;
 // box.rotation.x = 5;
@@ -30322,7 +30339,7 @@ if (typeof window !== "undefined") {
     else window.__THREE__ = REVISION;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"fD7H8"}],"fD7H8":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -31026,6 +31043,6 @@ class OrbitControls extends (0, _three.EventDispatcher) {
     }
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"fD7H8"}]},["60EJw","goJYj"], "goJYj", "parcelRequiref4a6")
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hVW7Y","goJYj"], "goJYj", "parcelRequiref4a6")
 
 //# sourceMappingURL=index.64a4978e.js.map
