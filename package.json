@@ -1,18 +1,17 @@
 {
-  "name": "webglproject",
+  "name": "newwebglproject",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.151.3"
+    "three": "^0.152.2"
   },
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "vite": "^4.3.3"
   }
 }
