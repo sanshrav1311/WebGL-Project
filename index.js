@@ -53,7 +53,10 @@ var LAnkle;
 var frogInitialRotation;
 var RArmPosition = [];
 var LArmPosition = [];
+var RLegPosition = [];
+var LLegPosition = [];
 var resetArms;
+var resetLegs;
 
 const loader = new GLTFLoader();
 loader.load(
@@ -142,6 +145,54 @@ loader.load(
         LUpperArm2.rotation.z
       )
     );
+    RLegPosition.push(
+      new THREE.Vector3(
+        RLowerLeg.rotation.x,
+        RLowerLeg.rotation.y,
+        RLowerLeg.rotation.z
+      )
+    );
+    RLegPosition.push(
+      new THREE.Vector3(
+        RUpperLeg.rotation.x,
+        RUpperLeg.rotation.y,
+        RUpperLeg.rotation.z
+      )
+    );
+    RLegPosition.push(
+      new THREE.Vector3(
+        RLowerLeg2.rotation.x,
+        RLowerLeg2.rotation.y,
+        RLowerLeg2.rotation.z
+      )
+    );
+    RLegPosition.push(
+      new THREE.Vector3(RAnkle.rotation.x, RAnkle.rotation.y, RAnkle.rotation.z)
+    );
+    LLegPosition.push(
+      new THREE.Vector3(
+        LLowerLeg.rotation.x,
+        LLowerLeg.rotation.y,
+        LLowerLeg.rotation.z
+      )
+    );
+    LLegPosition.push(
+      new THREE.Vector3(
+        LUpperLeg.rotation.x,
+        LUpperLeg.rotation.y,
+        LUpperLeg.rotation.z
+      )
+    );
+    LLegPosition.push(
+      new THREE.Vector3(
+        LLowerLeg2.rotation.x,
+        LLowerLeg2.rotation.y,
+        LLowerLeg2.rotation.z
+      )
+    );
+    LLegPosition.push(
+      new THREE.Vector3(LAnkle.rotation.x, LAnkle.rotation.y, LAnkle.rotation.z)
+    );
     resetArms = () => {
       RLowerArm.rotation.set(
         RArmPosition[0].x,
@@ -182,6 +233,48 @@ loader.load(
         LArmPosition[3].x,
         LArmPosition[3].y,
         LArmPosition[3].z
+      );
+    };
+    resetLegs = () => {
+      RLowerLeg.rotation.set(
+        RLegPosition[0].x,
+        RLegPosition[0].y,
+        RLegPosition[0].z
+      );
+      RUpperLeg.rotation.set(
+        RLegPosition[1].x,
+        RLegPosition[1].y,
+        RLegPosition[1].z
+      );
+      RLowerLeg2.rotation.set(
+        RLegPosition[2].x,
+        RLegPosition[2].y,
+        RLegPosition[2].z
+      );
+      RAnkle.rotation.set(
+        RLegPosition[3].x,
+        RLegPosition[3].y,
+        RLegPosition[3].z
+      );
+      LLowerLeg.rotation.set(
+        LLegPosition[0].x,
+        LLegPosition[0].y,
+        LLegPosition[0].z
+      );
+      LUpperLeg.rotation.set(
+        LLegPosition[1].x,
+        LLegPosition[1].y,
+        LLegPosition[1].z
+      );
+      LLowerLeg2.rotation.set(
+        LLegPosition[2].x,
+        LLegPosition[2].y,
+        LLegPosition[2].z
+      );
+      LAnkle.rotation.set(
+        LLegPosition[3].x,
+        LLegPosition[3].y,
+        LLegPosition[3].z
       );
     };
     // rotation.add(
@@ -548,7 +641,7 @@ const rotateVal6 = -1.6;
 var legextend;
 
 function RLegExtend() {
-  // resetArms();
+  resetLegs();
   const rotateTime = 500;
   const upperlegPosition = new THREE.Vector3(
     RLowerLeg.rotation.x,
@@ -571,7 +664,7 @@ function RLegExtend() {
   upperlegTween.start();
 }
 function LLegExtend() {
-  // resetArms();
+  resetLegs();
   const rotateTime = 500;
   const upperlegPosition = new THREE.Vector3(
     LLowerLeg.rotation.x,
@@ -641,6 +734,7 @@ var SKeyDown = false;
 document.addEventListener("keydown", function (event) {
   if (event.key === "j") {
     resetArms();
+    resetLegs();
     if (frogJump) {
       return;
     }
@@ -726,36 +820,33 @@ document.addEventListener("keydown", function (event) {
     SKeyDown = true;
   }
 });
-
-// function setPosition() {
-//   RLowerArm.rotation.set(RArmPosition.x, RArmPosition.y, RArmPosition.z);
-// }
-
+var QKeyDown = false;
 var timee = 0;
+var timef = 0;
 function update() {
   const speed = 0.2;
   const rotationSpeed = 0.1;
 
   if (keyStates.ArrowUp && keyStates.Shift) {
-    frog.rotation.x += rotationSpeed;
+    frog.rotation.x -= rotationSpeed;
   } else if (keyStates.ArrowUp) {
     frog.position.z -= speed;
   }
 
   if (keyStates.ArrowDown && keyStates.Shift) {
-    frog.rotation.x -= rotationSpeed;
+    frog.rotation.x += rotationSpeed;
   } else if (keyStates.ArrowDown) {
     frog.position.z += speed;
   }
 
   if (keyStates.ArrowLeft && keyStates.Shift) {
-    frog.rotation.z -= rotationSpeed;
+    frog.rotation.z += rotationSpeed;
   } else if (keyStates.ArrowLeft) {
     frog.position.x -= speed;
   }
 
   if (keyStates.ArrowRight && keyStates.Shift) {
-    frog.rotation.z += rotationSpeed;
+    frog.rotation.z -= rotationSpeed;
   } else if (keyStates.ArrowRight) {
     frog.position.x += speed;
   }
@@ -766,9 +857,27 @@ function update() {
   if (!keyStates.s) {
     SKeyDown = false;
   }
+  const offset = -3.8;
   if (keyStates.q) {
+    if (!QKeyDown) {
+      resetArms();
+      resetLegs();
+      RLowerArm.rotation.set(
+        RLowerArm.rotation.x + offset,
+        RLowerArm.rotation.y,
+        RLowerArm.rotation.z - offset
+      );
+      LLowerArm.rotation.set(
+        LLowerArm.rotation.x + offset,
+        LLowerArm.rotation.y,
+        LLowerArm.rotation.z + offset
+      );
+      QKeyDown = true;
+    }
     timee += 0.1;
+    timef += 0.1;
     if (timee >= 0.3) timee = 0;
+    if (timef >= 0.3) timef = 0;
     RLowerArm.rotation.set(
       RLowerArm.rotation.x + Math.sin(timee * 0.6),
       RLowerArm.rotation.y,
@@ -779,8 +888,30 @@ function update() {
       LLowerArm.rotation.y,
       LLowerArm.rotation.z + Math.sin(timee * 0.6)
     );
+    RLowerLeg.rotation.set(
+      RLowerLeg.rotation.x,
+      RLowerLeg.rotation.y,
+      RLowerLeg.rotation.z + Math.sin(timef * 0.6)
+    );
+    LLowerLeg.rotation.set(
+      LLowerLeg.rotation.x,
+      LLowerLeg.rotation.y,
+      LLowerLeg.rotation.z - Math.sin(timef * 0.6)
+    );
+    RAnkle.rotation.set(
+      RAnkle.rotation.x,
+      RAnkle.rotation.y,
+      RAnkle.rotation.z + Math.sin(timef * 0.6)
+    );
+    LAnkle.rotation.set(
+      LAnkle.rotation.x,
+      LAnkle.rotation.y,
+      LAnkle.rotation.z - Math.sin(timef * 0.6)
+    );
   }
-
+  if (!keyStates.q) {
+    QKeyDown = false;
+  }
   renderer.render(scene, camera);
   TWEEN.update();
 
