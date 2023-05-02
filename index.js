@@ -735,6 +735,8 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "j") {
     resetArms();
     resetLegs();
+    extendArm = false;
+    legextend = false;
     if (frogJump) {
       return;
     }
@@ -862,6 +864,8 @@ function update() {
     if (!QKeyDown) {
       resetArms();
       resetLegs();
+      extendArm = false;
+      legextend = false;
       RLowerArm.rotation.set(
         RLowerArm.rotation.x + offset,
         RLowerArm.rotation.y,
