@@ -125,6 +125,7 @@ var extendArm;
 const rotateVal = -1.5;
 const rotateVal2 = -1.5;
 const rotateVal3 = -1.5;
+
 function RextendArms() {
   const extendTime = 500;
   const armPosition = new THREE.Vector3(
@@ -157,6 +158,7 @@ function RextendArms() {
   lowerextendTween.start();
   lowerextendTween2.start();
 }
+
 function LextendArms() {
   const extendTime = 500;
   const armPosition = new THREE.Vector3(
@@ -187,6 +189,7 @@ function LextendArms() {
   lowerextendTween.start();
   lowerextendTween2.start();
 }
+
 function RbackArms() {
   const extendTime = 500;
   const armPosition = new THREE.Vector3(
@@ -244,9 +247,7 @@ function LbackArms() {
   const lowerextendTween2 = new TWEEN.Tween(LLowerArm2.rotation)
     .to(lowerarmPosition2, extendTime)
     .easing(TWEEN.Easing.Quadratic.Out);
-  // extendTween.chain(lowerextendTween);
-  // lowerextendTween.chain(lowerextendTween2);
-  // extendTween.start();
+
   extendTween.start();
   lowerextendTween.start();
   lowerextendTween2.start();
