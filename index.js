@@ -341,7 +341,99 @@ function NeckLeft() {
   }
 }
 
+const rotateVal5 = 0.2;
+const rotateVal6 = -1.6;
+var legextend;
+
+function RLegExtend() {
+  const rotateTime = 500;
+  const upperlegPosition = new THREE.Vector3(
+    RLowerLeg.rotation.x,
+    RLowerLeg.rotation.y,
+    RLowerLeg.rotation.z - rotateVal5 * 2
+  );
+  const upperlegTween = new TWEEN.Tween(RLowerLeg.rotation)
+    .to(upperlegPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const legPosition = new THREE.Vector3(
+    RLowerLeg2.rotation.x + rotateVal6,
+    RLowerLeg2.rotation.y,
+    RLowerLeg2.rotation.z
+  );
+  const lowerlegTween = new TWEEN.Tween(RLowerLeg2.rotation)
+    .to(legPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+
+  lowerlegTween.start();
+  upperlegTween.start();
+}
+function LLegExtend() {
+  const rotateTime = 500;
+  const upperlegPosition = new THREE.Vector3(
+    LLowerLeg.rotation.x,
+    LLowerLeg.rotation.y,
+    LLowerLeg.rotation.z + rotateVal5 * 2
+  );
+  const upperlegTween = new TWEEN.Tween(LLowerLeg.rotation)
+    .to(upperlegPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const legPosition = new THREE.Vector3(
+    LLowerLeg2.rotation.x + rotateVal6,
+    LLowerLeg2.rotation.y,
+    LLowerLeg2.rotation.z
+  );
+  const lowerlegTween = new TWEEN.Tween(LLowerLeg2.rotation)
+    .to(legPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  lowerlegTween.start();
+  upperlegTween.start();
+}
+function RLegBack() {
+  const rotateTime = 500;
+  const upperlegPosition = new THREE.Vector3(
+    RLowerLeg.rotation.x,
+    RLowerLeg.rotation.y,
+    RLowerLeg.rotation.z + rotateVal5 * 2
+  );
+  const upperlegTween = new TWEEN.Tween(RLowerLeg.rotation)
+    .to(upperlegPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const legPosition = new THREE.Vector3(
+    RLowerLeg2.rotation.x - rotateVal6,
+    RLowerLeg2.rotation.y,
+    RLowerLeg2.rotation.z
+  );
+  const lowerlegTween = new TWEEN.Tween(RLowerLeg2.rotation)
+    .to(legPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+
+  lowerlegTween.start();
+  upperlegTween.start();
+}
+function LLegBack() {
+  const rotateTime = 500;
+  const upperlegPosition = new THREE.Vector3(
+    LLowerLeg.rotation.x,
+    LLowerLeg.rotation.y,
+    LLowerLeg.rotation.z - rotateVal5 * 2
+  );
+  const upperlegTween = new TWEEN.Tween(LLowerLeg.rotation)
+    .to(upperlegPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const legPosition = new THREE.Vector3(
+    LLowerLeg2.rotation.x - rotateVal6,
+    LLowerLeg2.rotation.y,
+    LLowerLeg2.rotation.z
+  );
+  const lowerlegTween = new TWEEN.Tween(LLowerLeg2.rotation)
+    .to(legPosition, rotateTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  lowerlegTween.start();
+  upperlegTween.start();
+}
+
 var WkeyDown = false;
+var SKeyDown = false;
 document.addEventListener("keydown", function (event) {
   if (event.key === "j") {
     if (frogJump) {
@@ -355,6 +447,16 @@ document.addEventListener("keydown", function (event) {
     );
     frogJump = true;
     jumpAnimation();
+    RextendArms();
+    LextendArms();
+    RLegExtend();
+    LLegExtend();
+    setTimeout(function () {
+      RbackArms();
+      LbackArms();
+      RLegBack();
+      LLegBack();
+    }, 500);
     setTimeout(function () {
       frogJump = false;
     }, 1000);
@@ -386,20 +488,7 @@ document.addEventListener("keydown", function (event) {
       frogInitialRotation[1],
       frogInitialRotation[2]
     );
-    // if (extendArm && !WkeyDown) {
     NeckRight();
-    // LbackArms();
-    // setTimeout(function () {
-    //   extendArm = false;
-    // }, 500);
-    // } else if (!extendArm && !WkeyDown) {
-    //   RextendArms();
-    //   LextendArms();
-    //   setTimeout(function () {
-    //     extendArm = true;
-    //   }, 500);
-    // }
-    // WkeyDown = true;
   }
   if (event.key === "a") {
     frog.rotation.set(
@@ -407,20 +496,29 @@ document.addEventListener("keydown", function (event) {
       frogInitialRotation[1],
       frogInitialRotation[2]
     );
-    // if (extendArm && !WkeyDown) {
     NeckLeft();
-    // LbackArms();
-    // setTimeout(function () {
-    //   extendArm = false;
-    // }, 500);
-    // } else if (!extendArm && !WkeyDown) {
-    //   RextendArms();
-    //   LextendArms();
-    //   setTimeout(function () {
-    //     extendArm = true;
-    //   }, 500);
-    // }
-    // WkeyDown = true;
+  }
+
+  if (event.key === "s") {
+    frog.rotation.set(
+      frogInitialRotation[0],
+      frogInitialRotation[1],
+      frogInitialRotation[2]
+    );
+    if (legextend && !SKeyDown) {
+      RLegBack();
+      LLegBack();
+      setTimeout(function () {
+        legextend = false;
+      }, 500);
+    } else if (!legextend && !SKeyDown) {
+      RLegExtend();
+      LLegExtend();
+      setTimeout(function () {
+        legextend = true;
+      }, 500);
+    }
+    SKeyDown = true;
   }
 });
 
@@ -454,6 +552,9 @@ function update() {
 
   if (!keyStates.w) {
     WkeyDown = false;
+  }
+  if (!keyStates.s) {
+    SKeyDown = false;
   }
 
   renderer.render(scene, camera);
