@@ -2,7 +2,6 @@ import * as THREE from "three";
 import TWEEN from "https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { radToDeg } from "three/src/math/MathUtils";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
