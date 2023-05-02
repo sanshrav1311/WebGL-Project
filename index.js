@@ -51,9 +51,6 @@ var LLowerLeg2;
 var LAnkle;
 var frogInitialRotation;
 
-var RRotation;
-var LRotation;
-
 const loader = new GLTFLoader();
 loader.load(
   "Frog.gltf",
@@ -253,6 +250,97 @@ function LbackArms() {
   lowerextendTween2.start();
 }
 
+const rotateVal4 = -0.7;
+
+var neckright = false;
+var neckleft = false;
+
+function NeckRight() {
+  if (neckleft) {
+    const rotateTime = 400;
+    const neckPosition = new THREE.Vector3(
+      neck.rotation.x,
+      neck.rotation.y,
+      neck.rotation.z - rotateVal4 * 2
+    );
+    const neckTween = new TWEEN.Tween(neck.rotation)
+      .to(neckPosition, rotateTime)
+      .easing(TWEEN.Easing.Quadratic.Out);
+    neckTween.start();
+    neckright = true;
+    neckleft = false;
+  } else if (neckright) {
+    const rotateTime = 200;
+    const neckPosition = new THREE.Vector3(
+      neck.rotation.x,
+      neck.rotation.y,
+      neck.rotation.z + rotateVal4
+    );
+    const neckTween = new TWEEN.Tween(neck.rotation)
+      .to(neckPosition, rotateTime)
+      .easing(TWEEN.Easing.Quadratic.Out);
+    neckTween.start();
+    neckright = false;
+    neckleft = false;
+  } else {
+    const rotateTime = 200;
+    const neckPosition = new THREE.Vector3(
+      neck.rotation.x,
+      neck.rotation.y,
+      neck.rotation.z - rotateVal4
+    );
+    const neckTween = new TWEEN.Tween(neck.rotation)
+      .to(neckPosition, rotateTime)
+      .easing(TWEEN.Easing.Quadratic.Out);
+    neckTween.start();
+    neckright = true;
+    neckleft = false;
+  }
+}
+
+function NeckLeft() {
+  if (neckright) {
+    const rotateTime = 400;
+    const neckPosition = new THREE.Vector3(
+      neck.rotation.x,
+      neck.rotation.y,
+      neck.rotation.z + rotateVal4 * 2
+    );
+    const neckTween = new TWEEN.Tween(neck.rotation)
+      .to(neckPosition, rotateTime)
+      .easing(TWEEN.Easing.Quadratic.Out);
+    neckTween.start();
+    neckleft = true;
+    neckright = false;
+  } else if (neckleft) {
+    const rotateTime = 200;
+    const neckPosition = new THREE.Vector3(
+      neck.rotation.x,
+      neck.rotation.y,
+      neck.rotation.z - rotateVal4
+    );
+    const neckTween = new TWEEN.Tween(neck.rotation)
+      .to(neckPosition, rotateTime)
+      .easing(TWEEN.Easing.Quadratic.Out);
+    neckTween.start();
+    neckleft = false;
+    neckright = false;
+  } else {
+    const rotateTime = 200;
+    const neckPosition = new THREE.Vector3(
+      neck.rotation.x,
+      neck.rotation.y,
+      neck.rotation.z + rotateVal4
+    );
+    const neckTween = new TWEEN.Tween(neck.rotation)
+      .to(neckPosition, rotateTime)
+      .easing(TWEEN.Easing.Quadratic.Out);
+    neckTween.start();
+    neckleft = true;
+    neckright = false;
+  }
+}
+
 var WkeyDown = false;
 document.addEventListener("keydown", function (event) {
   if (event.key === "j") {
@@ -291,6 +379,48 @@ document.addEventListener("keydown", function (event) {
       }, 500);
     }
     WkeyDown = true;
+  }
+  if (event.key === "d") {
+    frog.rotation.set(
+      frogInitialRotation[0],
+      frogInitialRotation[1],
+      frogInitialRotation[2]
+    );
+    // if (extendArm && !WkeyDown) {
+    NeckRight();
+    // LbackArms();
+    // setTimeout(function () {
+    //   extendArm = false;
+    // }, 500);
+    // } else if (!extendArm && !WkeyDown) {
+    //   RextendArms();
+    //   LextendArms();
+    //   setTimeout(function () {
+    //     extendArm = true;
+    //   }, 500);
+    // }
+    // WkeyDown = true;
+  }
+  if (event.key === "a") {
+    frog.rotation.set(
+      frogInitialRotation[0],
+      frogInitialRotation[1],
+      frogInitialRotation[2]
+    );
+    // if (extendArm && !WkeyDown) {
+    NeckLeft();
+    // LbackArms();
+    // setTimeout(function () {
+    //   extendArm = false;
+    // }, 500);
+    // } else if (!extendArm && !WkeyDown) {
+    //   RextendArms();
+    //   LextendArms();
+    //   setTimeout(function () {
+    //     extendArm = true;
+    //   }, 500);
+    // }
+    // WkeyDown = true;
   }
 });
 
