@@ -17,6 +17,15 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.update();
 
+const keyStates = {}; // Object to keep track of which keys are being pressed
+document.addEventListener("keydown", function (event) {
+  keyStates[event.key] = true; // Set key state to "pressed"
+  console.log(event.key);
+});
+document.addEventListener("keyup", function (event) {
+  keyStates[event.key] = false; // Set key state to "not pressed"
+});
+
 var frog;
 var spine;
 var back;
@@ -41,6 +50,10 @@ var LLowerLeg;
 var LLowerLeg2;
 var LAnkle;
 var frogInitialRotation;
+
+var RRotation;
+var LRotation;
+
 const loader = new GLTFLoader();
 loader.load(
   "Frog.gltf",
@@ -72,75 +85,24 @@ loader.load(
     LLowerLeg = LUpperLeg.children[0];
     LLowerLeg2 = LLowerLeg.children[0];
     LAnkle = LLowerLeg2.children[0];
-
-    // const frog = object.scene.children[0].children[0];
-    // frog.rotation.z = 3.14159;
-    // const armature = object.scene.children[0];
-    // bone = armature.children[4].children[1].children[0].children[2];
-    // console.log(frog);
-    // frog.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    // frog.rotation.y = 3.14159 / 2;
-    // console.log(frog);
-    // console.log(armature);
-    // scene.add(frog);
-    // const bone = object.scene.children.find(
-    //   (child) => child.name === "bone.002"
-    // );
-    // scene.add(frog);
   },
   undefined,
   function (error) {
     console.error(error);
   }
 );
-// scene.add(cube);
 
 //add light
 // const light = new THREE.AmbientLight(0xFFFFFF); // soft white light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-// const light2 = new THREE.PointLight(0xffffff, 1, 100);
-// light2.position.set(2, 10, 2);
-// scene.add(light2);
+const light2 = new THREE.PointLight(0xffffff, 1, 100);
+light2.position.set(2, 10, -2);
+scene.add(light2);
 // scene.add(light);
 scene.add(directionalLight);
 
 camera.position.set(0, 10, -10);
-// camera.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), 3.14159 / 2);
 
-// var counter = 1;
-// function animate() {
-//   counter += 0.4;
-//   requestAnimationFrame(animate);
-//   // bone.rotation.x = 3.14159 / 10 + 0.2 * Math.sin(counter);
-//   // bone.rotation.y = 0.2 * Math.cos(0.7 * counter);
-//   // RUpperArm.rotation.y = 3.14159 / 10 + 0.2 * Math.sin(counter);
-//   // ArmIKR.position.set(
-//   //   ArmIKR.position.x + Math.sin(counter),
-//   //   ArmIKR.position.y + Math.cos(counter),
-//   //   ArmIKR.position.z
-//   // );
-//   // b.rotation.y = Math.cos(0.7 * counter);
-//   frog.position.y = Math.sin(counter) + 1;
-//   frog.position.z = Math.sin(counter * 0.5) + 1;
-//   renderer.render(scene, camera);
-// }
-
-// document.addEventListener("keydown", function (event) {
-//   switch (event.key) {
-//     case "j": // Make the model walk
-//       // mixer.timeScale = 1;
-//       animate(); // Set the speed of the animation
-//       break;
-//     case "k": // Make the model jump
-//       mixer.timeScale = 2; // Set the speed of the animation
-//       var jumpAnimation = mixer.clipAction("Jump"); // Get the jump animation from the mixer
-//       jumpAnimation.reset(); // Reset the animation to the beginning
-//       jumpAnimation.play(); // Play the animation
-//       break;
-//   }
-// });
-
-// Define the jump animation
 var frogJump = false;
 function jumpAnimation() {
   const jumpHeight = 10;
@@ -159,41 +121,180 @@ function jumpAnimation() {
   jumpTween.start();
 }
 
-// Handle key presses
+var extendArm;
+const rotateVal = -1.5;
+const rotateVal2 = -1.5;
+const rotateVal3 = -1.5;
+function RextendArms() {
+  const extendTime = 500;
+  const armPosition = new THREE.Vector3(
+    RUpperArm2.rotation.x,
+    RUpperArm2.rotation.y,
+    RUpperArm2.rotation.z - rotateVal
+  );
+  const extendTween = new TWEEN.Tween(RUpperArm2.rotation)
+    .to(armPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+
+  const lowerarmPosition = new THREE.Vector3(
+    RLowerArm.rotation.x + rotateVal2,
+    RLowerArm.rotation.y,
+    RLowerArm.rotation.z
+  );
+  const lowerextendTween = new TWEEN.Tween(RLowerArm.rotation)
+    .to(lowerarmPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+
+  const lowerarmPosition2 = new THREE.Vector3(
+    RLowerArm2.rotation.x - rotateVal3,
+    RLowerArm2.rotation.y,
+    RLowerArm2.rotation.z
+  );
+  const lowerextendTween2 = new TWEEN.Tween(RLowerArm2.rotation)
+    .to(lowerarmPosition2, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  extendTween.start();
+  lowerextendTween.start();
+  lowerextendTween2.start();
+}
+function LextendArms() {
+  const extendTime = 500;
+  const armPosition = new THREE.Vector3(
+    LUpperArm2.rotation.x,
+    LUpperArm2.rotation.y,
+    LUpperArm2.rotation.z + rotateVal
+  );
+  const extendTween = new TWEEN.Tween(LUpperArm2.rotation)
+    .to(armPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const lowerarmPosition = new THREE.Vector3(
+    LLowerArm.rotation.x + rotateVal2,
+    LLowerArm.rotation.y,
+    LLowerArm.rotation.z
+  );
+  const lowerextendTween = new TWEEN.Tween(LLowerArm.rotation)
+    .to(lowerarmPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const lowerarmPosition2 = new THREE.Vector3(
+    LLowerArm2.rotation.x - rotateVal3,
+    LLowerArm2.rotation.y,
+    LLowerArm2.rotation.z
+  );
+  const lowerextendTween2 = new TWEEN.Tween(LLowerArm2.rotation)
+    .to(lowerarmPosition2, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  extendTween.start();
+  lowerextendTween.start();
+  lowerextendTween2.start();
+}
+function RbackArms() {
+  const extendTime = 500;
+  const armPosition = new THREE.Vector3(
+    RUpperArm2.rotation.x,
+    RUpperArm2.rotation.y,
+    RUpperArm2.rotation.z + rotateVal
+  );
+  const extendTween = new TWEEN.Tween(RUpperArm2.rotation)
+    .to(armPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const lowerarmPosition = new THREE.Vector3(
+    RLowerArm.rotation.x - rotateVal2,
+    RLowerArm.rotation.y,
+    RLowerArm.rotation.z
+  );
+  const lowerextendTween = new TWEEN.Tween(RLowerArm.rotation)
+    .to(lowerarmPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const lowerarmPosition2 = new THREE.Vector3(
+    RLowerArm2.rotation.x + rotateVal3,
+    RLowerArm2.rotation.y,
+    RLowerArm2.rotation.z
+  );
+  const lowerextendTween2 = new TWEEN.Tween(RLowerArm2.rotation)
+    .to(lowerarmPosition2, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  extendTween.start();
+  lowerextendTween.start();
+  lowerextendTween2.start();
+}
+
+function LbackArms() {
+  const extendTime = 500;
+  const armPosition = new THREE.Vector3(
+    LUpperArm2.rotation.x,
+    LUpperArm2.rotation.y,
+    LUpperArm2.rotation.z - rotateVal
+  );
+  const extendTween = new TWEEN.Tween(LUpperArm2.rotation)
+    .to(armPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const lowerarmPosition = new THREE.Vector3(
+    LLowerArm.rotation.x - rotateVal2,
+    LLowerArm.rotation.y,
+    LLowerArm.rotation.z
+  );
+  const lowerextendTween = new TWEEN.Tween(LLowerArm.rotation)
+    .to(lowerarmPosition, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  const lowerarmPosition2 = new THREE.Vector3(
+    LLowerArm2.rotation.x + rotateVal3,
+    LLowerArm2.rotation.y,
+    LLowerArm2.rotation.z
+  );
+  const lowerextendTween2 = new TWEEN.Tween(LLowerArm2.rotation)
+    .to(lowerarmPosition2, extendTime)
+    .easing(TWEEN.Easing.Quadratic.Out);
+  // extendTween.chain(lowerextendTween);
+  // lowerextendTween.chain(lowerextendTween2);
+  // extendTween.start();
+  extendTween.start();
+  lowerextendTween.start();
+  lowerextendTween2.start();
+}
+
+var WkeyDown = false;
 document.addEventListener("keydown", function (event) {
   if (event.key === "j") {
     if (frogJump) {
-      return; // Jump animation is already playing
+      return;
     }
-    // frog.position.set(0, 0, 0);
+
     frog.rotation.set(
       frogInitialRotation[0],
       frogInitialRotation[1],
       frogInitialRotation[2]
     );
-    frogJump = true; // Set flag to indicate that jump animation is playing
+    frogJump = true;
     jumpAnimation();
     setTimeout(function () {
-      // frog.position.set(0, 0, 0); // Reset frog position
-      frogJump = false; // Reset jump animation flag
-    }, 1000); // Wait for jump animation to complete
+      frogJump = false;
+    }, 1000);
+  }
+  if (event.key === "w") {
+    frog.rotation.set(
+      frogInitialRotation[0],
+      frogInitialRotation[1],
+      frogInitialRotation[2]
+    );
+    if (extendArm && !WkeyDown) {
+      RbackArms();
+      LbackArms();
+      setTimeout(function () {
+        extendArm = false;
+      }, 500);
+    } else if (!extendArm && !WkeyDown) {
+      RextendArms();
+      LextendArms();
+      setTimeout(function () {
+        extendArm = true;
+      }, 500);
+    }
+    WkeyDown = true;
   }
 });
 
-const keyStates = {}; // Object to keep track of which keys are being pressed
-document.addEventListener("keydown", function (event) {
-  keyStates[event.key] = true; // Set key state to "pressed"
-  console.log(event.key);
-});
-document.addEventListener("keyup", function (event) {
-  keyStates[event.key] = false; // Set key state to "not pressed"
-});
-
-// Update function
 function update() {
-  // Move frog based on arrow key state
-  const speed = 0.2; // Set movement speed
-  // frog.position.set(0, 0, 0); // Reset translation vector
+  const speed = 0.2;
   const rotationSpeed = 0.1;
 
   if (keyStates.ArrowUp && keyStates.Shift) {
@@ -219,22 +320,21 @@ function update() {
   } else if (keyStates.ArrowRight) {
     frog.position.x += speed;
   }
-  // frog.translateOnAxis(frogTranslation, speed);
 
-  // Render scene and update animations
+  if (!keyStates.w) {
+    WkeyDown = false;
+  }
+
   renderer.render(scene, camera);
   TWEEN.update();
 
-  // Call update() again on the next frame
   requestAnimationFrame(update);
 }
 
-// Start the update loop
 requestAnimationFrame(update);
 
-// Render loop
 function render() {
-  TWEEN.update(); // Update the animation
+  TWEEN.update();
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
