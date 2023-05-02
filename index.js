@@ -2,6 +2,7 @@ import * as THREE from "three";
 import TWEEN from "https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { radToDeg } from "three/src/math/MathUtils";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -50,6 +51,9 @@ var LLowerLeg;
 var LLowerLeg2;
 var LAnkle;
 var frogInitialRotation;
+var RArmPosition = [];
+var LArmPosition = [];
+var resetArms;
 
 const loader = new GLTFLoader();
 loader.load(
@@ -82,6 +86,202 @@ loader.load(
     LLowerLeg = LUpperLeg.children[0];
     LLowerLeg2 = LLowerLeg.children[0];
     LAnkle = LLowerLeg2.children[0];
+    RArmPosition.push(
+      new THREE.Vector3(
+        RLowerArm.rotation.x,
+        RLowerArm.rotation.y,
+        RLowerArm.rotation.z
+      )
+    );
+    RArmPosition.push(
+      new THREE.Vector3(
+        RUpperArm.rotation.x,
+        RUpperArm.rotation.y,
+        RUpperArm.rotation.z
+      )
+    );
+    RArmPosition.push(
+      new THREE.Vector3(
+        RLowerArm2.rotation.x,
+        RLowerArm2.rotation.y,
+        RLowerArm2.rotation.z
+      )
+    );
+    RArmPosition.push(
+      new THREE.Vector3(
+        RUpperArm2.rotation.x,
+        RUpperArm2.rotation.y,
+        RUpperArm2.rotation.z
+      )
+    );
+    LArmPosition.push(
+      new THREE.Vector3(
+        LLowerArm.rotation.x,
+        LLowerArm.rotation.y,
+        LLowerArm.rotation.z
+      )
+    );
+    LArmPosition.push(
+      new THREE.Vector3(
+        LUpperArm.rotation.x,
+        LUpperArm.rotation.y,
+        LUpperArm.rotation.z
+      )
+    );
+    LArmPosition.push(
+      new THREE.Vector3(
+        LLowerArm2.rotation.x,
+        LLowerArm2.rotation.y,
+        LLowerArm2.rotation.z
+      )
+    );
+    LArmPosition.push(
+      new THREE.Vector3(
+        LUpperArm2.rotation.x,
+        LUpperArm2.rotation.y,
+        LUpperArm2.rotation.z
+      )
+    );
+    resetArms = () => {
+      RLowerArm.rotation.set(
+        RArmPosition[0].x,
+        RArmPosition[0].y,
+        RArmPosition[0].z
+      );
+      RUpperArm.rotation.set(
+        RArmPosition[1].x,
+        RArmPosition[1].y,
+        RArmPosition[1].z
+      );
+      RLowerArm2.rotation.set(
+        RArmPosition[2].x,
+        RArmPosition[2].y,
+        RArmPosition[2].z
+      );
+      RUpperArm2.rotation.set(
+        RArmPosition[3].x,
+        RArmPosition[3].y,
+        RArmPosition[3].z
+      );
+      LLowerArm.rotation.set(
+        LArmPosition[0].x,
+        LArmPosition[0].y,
+        LArmPosition[0].z
+      );
+      LUpperArm.rotation.set(
+        LArmPosition[1].x,
+        LArmPosition[1].y,
+        LArmPosition[1].z
+      );
+      LLowerArm2.rotation.set(
+        LArmPosition[2].x,
+        LArmPosition[2].y,
+        LArmPosition[2].z
+      );
+      LUpperArm2.rotation.set(
+        LArmPosition[3].x,
+        LArmPosition[3].y,
+        LArmPosition[3].z
+      );
+    };
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     RUpperArm.rotation.x,
+    //     RUpperArm.rotation.y,
+    //     RUpperArm.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     LUpperArm.rotation.x,
+    //     LUpperArm.rotation.y,
+    //     LUpperArm.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     RUpperLeg.rotation.x,
+    //     RUpperLeg.rotation.y,
+    //     RUpperLeg.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     LUpperLeg.rotation.x,
+    //     LUpperLeg.rotation.y,
+    //     LUpperLeg.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     RUpperArm2.rotation.x,
+    //     RUpperArm2.rotation.y,
+    //     RUpperArm2.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     RLowerArm.rotation.x,
+    //     RLowerArm.rotation.y,
+    //     RLowerArm.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     RLowerArm2.rotation.x,
+    //     RLowerArm2.rotation.y,
+    //     RLowerArm2.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     LUpperArm2.rotation.x,
+    //     LUpperArm2.rotation.y,
+    //     LUpperArm2.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     LLowerArm.rotation.x,
+    //     LLowerArm.rotation.y,
+    //     LLowerArm.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     LLowerArm2.rotation.x,
+    //     LLowerArm2.rotation.y,
+    //     LLowerArm2.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     RLowerLeg.rotation.x,
+    //     RLowerLeg.rotation.y,
+    //     RLowerLeg.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     RLowerLeg2.rotation.x,
+    //     RLowerLeg2.rotation.y,
+    //     RLowerLeg2.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     LLowerLeg.rotation.x,
+    //     LLowerLeg.rotation.y,
+    //     LLowerLeg.rotation.z
+    //   )
+    // );
+    // rotation.add(
+    //   new THREE.Vector3(
+    //     LLowerLeg2.rotation.x,
+    //     LLowerLeg2.rotation.y,
+    //     LLowerLeg2.rotation.z
+    //   )
+    // );
   },
   undefined,
   function (error) {
@@ -124,6 +324,7 @@ const rotateVal2 = -1.5;
 const rotateVal3 = -1.5;
 
 function RextendArms() {
+  resetArms();
   const extendTime = 500;
   const armPosition = new THREE.Vector3(
     RUpperArm2.rotation.x,
@@ -157,6 +358,7 @@ function RextendArms() {
 }
 
 function LextendArms() {
+  resetArms();
   const extendTime = 500;
   const armPosition = new THREE.Vector3(
     LUpperArm2.rotation.x,
@@ -346,6 +548,7 @@ const rotateVal6 = -1.6;
 var legextend;
 
 function RLegExtend() {
+  // resetArms();
   const rotateTime = 500;
   const upperlegPosition = new THREE.Vector3(
     RLowerLeg.rotation.x,
@@ -368,6 +571,7 @@ function RLegExtend() {
   upperlegTween.start();
 }
 function LLegExtend() {
+  // resetArms();
   const rotateTime = 500;
   const upperlegPosition = new THREE.Vector3(
     LLowerLeg.rotation.x,
@@ -436,6 +640,7 @@ var WkeyDown = false;
 var SKeyDown = false;
 document.addEventListener("keydown", function (event) {
   if (event.key === "j") {
+    resetArms();
     if (frogJump) {
       return;
     }
@@ -522,6 +727,11 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
+// function setPosition() {
+//   RLowerArm.rotation.set(RArmPosition.x, RArmPosition.y, RArmPosition.z);
+// }
+
+var timee = 0;
 function update() {
   const speed = 0.2;
   const rotationSpeed = 0.1;
@@ -555,6 +765,20 @@ function update() {
   }
   if (!keyStates.s) {
     SKeyDown = false;
+  }
+  if (keyStates.q) {
+    timee += 0.1;
+    if (timee >= 0.3) timee = 0;
+    RLowerArm.rotation.set(
+      RLowerArm.rotation.x + Math.sin(timee * 0.6),
+      RLowerArm.rotation.y,
+      RLowerArm.rotation.z - Math.sin(timee * 0.6)
+    );
+    LLowerArm.rotation.set(
+      LLowerArm.rotation.x + Math.sin(timee * 0.6),
+      LLowerArm.rotation.y,
+      LLowerArm.rotation.z + Math.sin(timee * 0.6)
+    );
   }
 
   renderer.render(scene, camera);
