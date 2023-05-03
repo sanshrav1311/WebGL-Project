@@ -95,8 +95,6 @@ void main() {
   // calculate the final color
   vec3 color = mix(vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0), diffuse); // set the base color to green
   color *= pointLightColor; // multiply by the color of the point light
-  // color *= diffuse; // multiply by the diffuse lighting
-  color += vec3(0.3); // add ambient lighting
   color += specular; // add specular lighting
   
   // output the final color
