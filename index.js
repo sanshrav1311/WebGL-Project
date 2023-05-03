@@ -93,9 +93,9 @@ void main() {
   float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
   
   // calculate the final color
-  vec3 color = vec3(0.0, 1.0, 0.0); // set the base color to red
+  vec3 color = mix(vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0), diffuse); // set the base color to green
   color *= pointLightColor; // multiply by the color of the point light
-  color *= diffuse; // multiply by the diffuse lighting
+  // color *= diffuse; // multiply by the diffuse lighting
   color += vec3(0.3); // add ambient lighting
   color += specular; // add specular lighting
   
@@ -117,7 +117,7 @@ void main() {
   float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
   
   // calculate the final color
-  vec3 color = vec3(0.5, 0.5, 0.5); // set the base color to red
+  vec3 color = vec3(0.5, 0.5, 0.5); // set the base color to grey
   color *= pointLightColor; // multiply by the color of the point light
   color *= diffuse; // multiply by the diffuse lighting
   color += vec3(0.3); // add ambient lighting
