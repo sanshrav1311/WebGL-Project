@@ -88,11 +88,13 @@ const fragmentShader = `
     vec3 normal = normalize(Normal);
     vec3 lightDirection = normalize(pointLightPosition - viewPosition);
     float diffuse = max(dot(normal, lightDirection), 0.0);
+    vec3 ambient = vec3(0.0);
     vec3 halfway = normalize(lightDirection + normalize(viewPosition));
     float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
-    
+
     vec3 color = mix(vec3(1.0, 1.0, 0.6), vec3(0.0, 1.0, 0.0), diffuse);
     color *= pointLightColor;
+    color += ambient;
     color += specular;
 
     gl_FragColor = vec4(color, 1.0);
@@ -108,12 +110,12 @@ const fragmentShaderPlane = `
     vec3 normal = normalize(Normal);
     vec3 lightDirection = normalize(pointLightPosition - viewPosition);
     float diffuse = max(dot(normal, lightDirection), 0.0);
-    vec3 halfway = normalize(lightDirection + normalize(viewPosition));
-    
+    vec3 ambient = vec3(0.2);
+
     vec3 color = vec3(0.5, 0.5, 0.5);
     color *= pointLightColor;
     color *= diffuse;
-    color += vec3(0.2);
+    color += ambient;
     
     gl_FragColor = vec4(color, 1.0);
   }
