@@ -17,13 +17,13 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.update();
 
-const keyStates = {}; // Object to keep track of which keys are being pressed
+const keyStates = {};
 document.addEventListener("keydown", function (event) {
-  keyStates[event.key] = true; // Set key state to "pressed"
+  keyStates[event.key] = true;
   console.log(event.key);
 });
 document.addEventListener("keyup", function (event) {
-  keyStates[event.key] = false; // Set key state to "not pressed"
+  keyStates[event.key] = false;
 });
 
 var frog;
@@ -372,104 +372,6 @@ loader.load(
         LLegPosition[3].z
       );
     };
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     RUpperArm.rotation.x,
-    //     RUpperArm.rotation.y,
-    //     RUpperArm.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     LUpperArm.rotation.x,
-    //     LUpperArm.rotation.y,
-    //     LUpperArm.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     RUpperLeg.rotation.x,
-    //     RUpperLeg.rotation.y,
-    //     RUpperLeg.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     LUpperLeg.rotation.x,
-    //     LUpperLeg.rotation.y,
-    //     LUpperLeg.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     RUpperArm2.rotation.x,
-    //     RUpperArm2.rotation.y,
-    //     RUpperArm2.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     RLowerArm.rotation.x,
-    //     RLowerArm.rotation.y,
-    //     RLowerArm.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     RLowerArm2.rotation.x,
-    //     RLowerArm2.rotation.y,
-    //     RLowerArm2.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     LUpperArm2.rotation.x,
-    //     LUpperArm2.rotation.y,
-    //     LUpperArm2.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     LLowerArm.rotation.x,
-    //     LLowerArm.rotation.y,
-    //     LLowerArm.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     LLowerArm2.rotation.x,
-    //     LLowerArm2.rotation.y,
-    //     LLowerArm2.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     RLowerLeg.rotation.x,
-    //     RLowerLeg.rotation.y,
-    //     RLowerLeg.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     RLowerLeg2.rotation.x,
-    //     RLowerLeg2.rotation.y,
-    //     RLowerLeg2.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     LLowerLeg.rotation.x,
-    //     LLowerLeg.rotation.y,
-    //     LLowerLeg.rotation.z
-    //   )
-    // );
-    // rotation.add(
-    //   new THREE.Vector3(
-    //     LLowerLeg2.rotation.x,
-    //     LLowerLeg2.rotation.y,
-    //     LLowerLeg2.rotation.z
-    //   )
-    // );
   },
   undefined,
   function (error) {
