@@ -118,7 +118,7 @@ void main() {
   vec3 color = vec3(0.5, 0.5, 0.5); // set the base color to grey
   color *= pointLightColor; // multiply by the color of the point light
   color *= diffuse; // multiply by the diffuse lighting
-  color += vec3(0.3); // add ambient lighting
+  color += vec3(0.2); // add ambient lighting
   color += specular; // add specular lighting
   
   // output the final color
