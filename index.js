@@ -58,69 +58,65 @@ var resetArms;
 var resetLegs;
 
 const vertexShader = `
-    varying vec3 Normal;
-    varying vec3 Position;
-    varying vec3 viewPosition;
-    #include <common>
-    #include <skinning_pars_vertex>
+  varying vec3 Normal;
+  varying vec3 Position;
+  varying vec3 viewPosition;
+  #include <common>
+  #include <skinning_pars_vertex>
 
-    void main() {
-      #include <skinbase_vertex>
-      #include <begin_vertex>
-      #include <beginnormal_vertex>
-      #include <defaultnormal_vertex>
-      #include <skinning_vertex>
-      #include <project_vertex>
+  void main() {
+    #include <skinbase_vertex>
+    #include <begin_vertex>
+    #include <beginnormal_vertex>
+    #include <defaultnormal_vertex>
+    #include <skinning_vertex>
+    #include <project_vertex>
 
-      Normal = normalize(normalMatrix * normal);
-      Position = vec3(modelViewMatrix * vec4(position, 1.0));
-      viewPosition = -mvPosition.xyz;
-      gl_Position = projectionMatrix * mvPosition;
-    }
-  `;
+    Normal = normalize(normalMatrix * normal);
+    Position = vec3(modelViewMatrix * vec4(position, 1.0));
+    viewPosition = -mvPosition.xyz;
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
 
 const fragmentShader = `
-varying vec3 Normal;
-varying vec3 viewPosition;
-uniform vec3 pointLightPosition;
-uniform vec3 pointLightColor;
-void main() {
-  // calculate the diffuse and specular lighting
-  vec3 normal = normalize(Normal);
-  vec3 lightDirection = normalize(pointLightPosition - viewPosition);
-  float diffuse = max(dot(normal, lightDirection), 0.0);
-  vec3 halfway = normalize(lightDirection + normalize(viewPosition));
-  float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
-  
-  // calculate the final color
-  vec3 color = mix(vec3(1.0, 1.0, 0.6), vec3(0.0, 1.0, 0.0), diffuse); // set the base color to green
-  color *= pointLightColor; // multiply by the color of the point light
-  color += specular; // add specular lighting
+  varying vec3 Normal;
+  varying vec3 viewPosition;
+  uniform vec3 pointLightPosition;
+  uniform vec3 pointLightColor;
+  void main() {
+    vec3 normal = normalize(Normal);
+    vec3 lightDirection = normalize(pointLightPosition - viewPosition);
+    float diffuse = max(dot(normal, lightDirection), 0.0);
+    vec3 halfway = normalize(lightDirection + normalize(viewPosition));
+    float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
+    
+    vec3 color = mix(vec3(1.0, 1.0, 0.6), vec3(0.0, 1.0, 0.0), diffuse);
+    color *= pointLightColor;
+    color += specular;
 
-  gl_FragColor = vec4(color, 1.0);
-}
+    gl_FragColor = vec4(color, 1.0);
+  }
 `;
+
 const fragmentShaderPlane = `
-varying vec3 Normal;
-varying vec3 viewPosition;
-uniform vec3 pointLightPosition;
-uniform vec3 pointLightColor;
-void main() {
-  // calculate the diffuse and specular lighting
-  vec3 normal = normalize(Normal);
-  vec3 lightDirection = normalize(pointLightPosition - viewPosition);
-  float diffuse = max(dot(normal, lightDirection), 0.0);
-  vec3 halfway = normalize(lightDirection + normalize(viewPosition));
-  float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
-  
-  // calculate the final color
-  vec3 color = vec3(0.5, 0.5, 0.5); // set the base color to grey
-  color *= pointLightColor; // multiply by the color of the point light
-  color *= diffuse; // multiply by the diffuse lighting
-  color += vec3(0.2); // add ambient lighting
-  
-  gl_FragColor = vec4(color, 1.0);
-}
+  varying vec3 Normal;
+  varying vec3 viewPosition;
+  uniform vec3 pointLightPosition;
+  uniform vec3 pointLightColor;
+  void main() {
+    vec3 normal = normalize(Normal);
+    vec3 lightDirection = normalize(pointLightPosition - viewPosition);
+    float diffuse = max(dot(normal, lightDirection), 0.0);
+    vec3 halfway = normalize(lightDirection + normalize(viewPosition));
+    
+    vec3 color = vec3(0.5, 0.5, 0.5);
+    color *= pointLightColor;
+    color *= diffuse;
+    color += vec3(0.2);
+    
+    gl_FragColor = vec4(color, 1.0);
+  }
 `;
 
 const uniforms = {
