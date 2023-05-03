@@ -95,8 +95,8 @@ void main() {
   // calculate the final color
   vec3 color = mix(vec3(1.0, 1.0, 0.6), vec3(0.0, 1.0, 0.0), diffuse); // set the base color to green
   color *= pointLightColor; // multiply by the color of the point light
+  // color += vec3(0.1); // add ambient lighting
   color += specular; // add specular lighting
-  
   // output the final color
   gl_FragColor = vec4(color, 1.0);
 }
@@ -140,8 +140,8 @@ const material = new THREE.ShaderMaterial({
 });
 const plane = new THREE.Mesh(geometry, material);
 plane.rotation.x = Math.PI / 2;
-plane.position.y = -4;
-scene.add(plane);
+plane.position.y = -1.5;
+// scene.add(plane);
 
 const loader = new GLTFLoader();
 loader.load(
@@ -721,6 +721,8 @@ function LLegBack() {
 
 var WkeyDown = false;
 var SKeyDown = false;
+var isPlane = false;
+
 document.addEventListener("keydown", function (event) {
   if (event.key === "j") {
     resetArms();
@@ -810,6 +812,15 @@ document.addEventListener("keydown", function (event) {
       }, 500);
     }
     SKeyDown = true;
+  }
+  if (event.key === "x") {
+    if (isPlane) {
+      scene.remove(plane);
+      isPlane = false;
+    } else {
+      scene.add(plane);
+      isPlane = true;
+    }
   }
 });
 var QKeyDown = false;
