@@ -127,7 +127,7 @@ void main() {
 `;
 
 const uniforms = {
-  pointLightPosition: { value: new THREE.Vector3(-2, 10, -2) },
+  pointLightPosition: { value: new THREE.Vector3(0, 10, 0) },
   pointLightColor: { value: new THREE.Color(1, 1, 1) },
 };
 
@@ -378,7 +378,7 @@ loader.load(
 );
 
 const light2 = new THREE.PointLight(0xffffff, 1, 100);
-light2.position.set(-2, 10, -2);
+light2.position.set(0, 10, 0);
 scene.add(light2);
 
 camera.position.set(0, 10, 10);
