@@ -103,18 +103,47 @@ void main() {
   gl_FragColor = vec4(color, 1.0);
 }
 `;
+const fragmentShaderPlane = `
+varying vec3 Normal;
+varying vec3 viewPosition;
+uniform vec3 pointLightPosition;
+uniform vec3 pointLightColor;
+void main() {
+  // calculate the diffuse and specular lighting
+  vec3 normal = normalize(Normal);
+  vec3 lightDirection = normalize(pointLightPosition - viewPosition);
+  float diffuse = max(dot(normal, lightDirection), 0.0);
+  vec3 halfway = normalize(lightDirection + normalize(viewPosition));
+  float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
+  
+  // calculate the final color
+  vec3 color = vec3(0.5, 0.5, 0.5); // set the base color to red
+  color *= pointLightColor; // multiply by the color of the point light
+  color *= diffuse; // multiply by the diffuse lighting
+  color += vec3(0.3); // add ambient lighting
+  color += specular; // add specular lighting
+  
+  // output the final color
+  gl_FragColor = vec4(color, 1.0);
+}
+`;
 
 const uniforms = {
   pointLightPosition: { value: new THREE.Vector3(-2, 10, -2) },
   pointLightColor: { value: new THREE.Color(1, 1, 1) },
 };
 
-// const material = new THREE.ShaderMaterial({
-//   uniforms: uniforms,
-//   vertexShader: vertexShader,
-//   fragmentShader: fragmentShader,
-//   skinning: true,
-// });
+const geometry = new THREE.PlaneGeometry(1000, 1000);
+const material = new THREE.ShaderMaterial({
+  uniforms: uniforms,
+  vertexShader: vertexShader,
+  fragmentShader: fragmentShaderPlane,
+  side: THREE.DoubleSide,
+});
+const plane = new THREE.Mesh(geometry, material);
+plane.rotation.x = Math.PI / 2;
+plane.position.y = -4;
+scene.add(plane);
 
 const loader = new GLTFLoader();
 loader.load(
@@ -125,9 +154,6 @@ loader.load(
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
     });
-    // material.onBeforeCompile();
-    // material.skinning = true;
-    // material.morphTargets = true;
     for (var i = 0; i < 97; i++) {
       object.scene.children[0].children[i].material = material;
     }
@@ -906,13 +932,13 @@ function update() {
   }
 
   if (keyStates.ArrowLeft && keyStates.Shift) {
-    frog.rotation.z += rotationSpeed;
+    frog.rotation.y += rotationSpeed;
   } else if (keyStates.ArrowLeft) {
     frog.position.x -= speed;
   }
 
   if (keyStates.ArrowRight && keyStates.Shift) {
-    frog.rotation.z -= rotationSpeed;
+    frog.rotation.y -= rotationSpeed;
   } else if (keyStates.ArrowRight) {
     frog.position.x += speed;
   }
