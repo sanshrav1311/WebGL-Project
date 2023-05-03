@@ -60,6 +60,7 @@ var resetLegs;
 const vertexShader = `
     varying vec3 Normal;
     varying vec3 Position;
+    varying vec3 viewPosition;
     #include <common>
     #include <skinning_pars_vertex>
 
@@ -73,29 +74,40 @@ const vertexShader = `
 
       Normal = normalize(normalMatrix * normal);
       Position = vec3(modelViewMatrix * vec4(position, 1.0));
+      viewPosition = -mvPosition.xyz;
       gl_Position = projectionMatrix * mvPosition;
     }
   `;
 
 const fragmentShader = `
-  varying vec3 Normal;
-  varying vec2 vUv;
-  void main() {
-    gl_FragColor = vec4(Normal, 1.0);
-  }
+varying vec3 Normal;
+varying vec3 viewPosition;
+uniform vec3 pointLightPosition;
+uniform vec3 pointLightColor;
+void main() {
+  // calculate the diffuse and specular lighting
+  vec3 normal = normalize(Normal);
+  vec3 lightDirection = normalize(pointLightPosition - viewPosition);
+  float diffuse = max(dot(normal, lightDirection), 0.0);
+  vec3 halfway = normalize(lightDirection + normalize(viewPosition));
+  float specular = pow(max(dot(normal, halfway), 0.0), 32.0);
+  
+  // calculate the final color
+  vec3 color = vec3(0.0, 1.0, 0.0); // set the base color to red
+  color *= pointLightColor; // multiply by the color of the point light
+  color *= diffuse; // multiply by the diffuse lighting
+  color += vec3(0.3); // add ambient lighting
+  color += specular; // add specular lighting
+  
+  // output the final color
+  gl_FragColor = vec4(color, 1.0);
+}
 `;
 
-// const uniforms = {
-//   color1: { value: new THREE.Color( 0xff0000 ) },
-//   color2: { value: new THREE.Color( 0x00ff00 ) },
-//   color3: { value: new THREE.Color( 0x0000ff ) },
-//   iterations: { value: 1 },
-//   permutations: { value: 10 },
-//   brightness: { value: 1 },
-//   time: { value: 1 },
-//   speed: { value: 0.02 },
-//   uvScale: { value: new THREE.Vector2(1, 1) }
-// };
+const uniforms = {
+  pointLightPosition: { value: new THREE.Vector3(-2, 10, -2) },
+  pointLightColor: { value: new THREE.Color(1, 1, 1) },
+};
 
 // const material = new THREE.ShaderMaterial({
 //   uniforms: uniforms,
@@ -109,7 +121,7 @@ loader.load(
   "Frog.gltf",
   function (object) {
     const material = new THREE.ShaderMaterial({
-      // uniforms: {},
+      uniforms: uniforms,
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
     });
@@ -439,16 +451,11 @@ loader.load(
   }
 );
 
-//add light
-// const light = new THREE.AmbientLight(0xFFFFFF); // soft white light
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 const light2 = new THREE.PointLight(0xffffff, 1, 100);
-light2.position.set(2, 10, -2);
+light2.position.set(-2, 10, -2);
 scene.add(light2);
-// scene.add(light);
-scene.add(directionalLight);
 
-camera.position.set(0, 10, -10);
+camera.position.set(0, 10, 10);
 
 var frogJump = false;
 function jumpAnimation() {
