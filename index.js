@@ -57,10 +57,68 @@ var LLegPosition = [];
 var resetArms;
 var resetLegs;
 
+const vertexShader = `
+    varying vec3 Normal;
+    varying vec3 Position;
+    #include <common>
+    #include <skinning_pars_vertex>
+
+    void main() {
+      #include <skinbase_vertex>
+      #include <begin_vertex>
+      #include <beginnormal_vertex>
+      #include <defaultnormal_vertex>
+      #include <skinning_vertex>
+      #include <project_vertex>
+
+      Normal = normalize(normalMatrix * normal);
+      Position = vec3(modelViewMatrix * vec4(position, 1.0));
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  `;
+
+const fragmentShader = `
+  varying vec3 Normal;
+  varying vec2 vUv;
+  void main() {
+    gl_FragColor = vec4(Normal, 1.0);
+  }
+`;
+
+// const uniforms = {
+//   color1: { value: new THREE.Color( 0xff0000 ) },
+//   color2: { value: new THREE.Color( 0x00ff00 ) },
+//   color3: { value: new THREE.Color( 0x0000ff ) },
+//   iterations: { value: 1 },
+//   permutations: { value: 10 },
+//   brightness: { value: 1 },
+//   time: { value: 1 },
+//   speed: { value: 0.02 },
+//   uvScale: { value: new THREE.Vector2(1, 1) }
+// };
+
+// const material = new THREE.ShaderMaterial({
+//   uniforms: uniforms,
+//   vertexShader: vertexShader,
+//   fragmentShader: fragmentShader,
+//   skinning: true,
+// });
+
 const loader = new GLTFLoader();
 loader.load(
   "Frog.gltf",
   function (object) {
+    const material = new THREE.ShaderMaterial({
+      // uniforms: {},
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+    });
+    // material.onBeforeCompile();
+    // material.skinning = true;
+    // material.morphTargets = true;
+    for (var i = 0; i < 97; i++) {
+      object.scene.children[0].children[i].material = material;
+    }
     frog = object.scene.children[0];
     frog.position.set(0, 0, 0);
     frogInitialRotation = [frog.rotation.x, frog.rotation.y, frog.rotation.z];
