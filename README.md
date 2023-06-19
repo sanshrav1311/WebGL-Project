@@ -52,19 +52,19 @@ follows:
 up, down, right, and left arrow keys were used for translation in the forward,
 backward, right, and left directions, respectively and holding shift along the arrow
 keys rotates the skeleton in the respective direction.
-The 'q' key was used to make the frog swim.
-'j' to make it jump.
-'w' to stretch its front legs forward.
-'s' to stretch its rear legs backward.
-'a' key was used to turn the frog's neck to the left.
-'d' key was used to turn it to the right. To rotate the frog, the user could press the
+* The 'q' key was used to make the frog swim.
+* 'j' to make it jump.
+* 'w' to stretch its front legs forward.
+* 's' to stretch its rear legs backward.
+* 'a' key was used to turn the frog's neck to the left.
+* 'd' key was used to turn it to the right. To rotate the frog, the user could press the
 shift key along with the arrow keys.
-'x' key allowed the user to see the ground, which was not visible by default. The
+* 'x' key allowed the user to see the ground, which was not visible by default. The
 frog skeleton can be seen on any web browser, and these keys can be used to
 control the movement of the frog skeleton.
-left mouse button is used to rotate the object
-right mouse button is used to change the camera position
-scroll wheel is used to zoom in and zoom out of the object.
+* left mouse button is used to rotate the object
+* right mouse button is used to change the camera position
+* scroll wheel is used to zoom in and zoom out of the object.
 ## Shaders :
 In the index.js file of our project, we have successfully implemented shaders using
 three.js. Specifically, we have utilized the Phong shading technique to achieve a desired
@@ -82,31 +82,34 @@ brightest with bright color being yellow and the dim states showing a green hue.
 shader is also applied to the ground plane which works the same way but has an
 ambient light that just gives light from every part to make it more visible and changes
 color from light gray to dark gray as per the viewing angle and light position.
-Explanation of Shaders :We have attached the code snippet of the Vertex and Fragment Shaders at the end.
+### Explanation of Shaders :
+We have attached the code snippet of the Vertex and Fragment Shaders at the end.
+
 Vertex Shader has three 3D vectors as Normal, Position and viewPosition.
-● Normal calculates the normal values of the vertex normalizes it.
-● Position calculates the Vertex Position and view matrix.
-● viewPosition uses mvPosition that has where the model is in view coordinates.
+* Normal calculates the normal values of the vertex normalizes it.
+* Position calculates the Vertex Position and view matrix.
+* viewPosition uses mvPosition that has where the model is in view coordinates.
+
 Fragment Shader has
-● vec3 lightDirection => it calculates the difference between light direction and
+* vec3 lightDirection => it calculates the difference between light direction and
 viewPosition.
-● float diffuse => it calculates the dot product for the light angle and the normal
+* float diffuse => it calculates the dot product for the light angle and the normal
 vector.
-● vec3 ambient => it adds an ambient light to the mesh. i.e. every pixel brightens up
+* vec3 ambient => it adds an ambient light to the mesh. i.e. every pixel brightens up
 to make it more visible.
-● vec3 halfway => it calculates the half way vector between light position and view
+* vec3 halfway => it calculates the half way vector between light position and view
 angle to use in specular.
-● float specular => it calculates the dot product of the halfway vector and the
+* float specular => it calculates the dot product of the halfway vector and the
 surface normal, raised to the power of 32. This gives a bright highlight to the
 surface where the light is reflected most strongly.
-● vec3 pointLightColor => it is from Uniform variable array that is used in
+* vec3 pointLightColor => it is from Uniform variable array that is used in
 calculating final color by multiplying it with color vec3.
-● vec 3 color => for the frog it uses mix to make the frog go from yellow to green in
+* vec 3 color => for the frog it uses mix to make the frog go from yellow to green in
 light to dark respectively and for the plane it goes from gray to dark gray
 (because of ambient light else it is black).
 It also takes a Uniform variable array that takes two vectors of light position and light
 color.
-Challenges faced while implementing Shaders :
+### Challenges faced while implementing Shaders :
 Major challenge faced was the removal of skinning from the model. When using the
 custom shader using ShaderMaterial it removes the rigged bones that are necessary for
 animations and hence animation would not have been possible.
