@@ -15,7 +15,7 @@ Running the WebGL Project:
 3. Run command “npx vite” to run a localhost server.(generally on
 http://localhost:5173/ )
 4. Open the URL provided in a web browser like Google Chrome.
-Model :
+## Model :
 The making of the frog skeleton and the rigging of the skeleton was done on Blender.
 The frog skeleton was made using multiple cube and planar meshes for every bone. The
 conventional methodology of using 3 orthogonal angles of the skeleton images to
@@ -38,7 +38,7 @@ armature bone follows an hierarchy in the entire hierarchy, allowing each armatu
 function as actual bones connected by joints instead of individual bones. Constraints
 were added on some vital bones to prevent wanton movement and simulate the
 movement of an actual bone.
-Movements of the skeleton :
+## Movements of the skeleton :
 In this project, movements were applied to the frog skeleton using Three.js. The
 movements included translation in four directions (forward, backward, right, and left),
 rotations in four directions, and the ability to swim, jump, and stretch its front and rear
@@ -46,7 +46,7 @@ legs. Additionally, the frog was able to turn its neck to the left or right. To 
 movements, a file named 'index.js' was created to write the Three.js code in it. The right
 and left rotations took place about the back of the skeleton, and the forward and
 backward rotation was around the tail bone of the frog.
-Controls :
+### Controls :
 To control the movements of the frog, various keys were assigned specific functions. As
 follows:
 up, down, right, and left arrow keys were used for translation in the forward,
@@ -65,7 +65,7 @@ control the movement of the frog skeleton.
 left mouse button is used to rotate the object
 right mouse button is used to change the camera position
 scroll wheel is used to zoom in and zoom out of the object.
-Shaders :
+## Shaders :
 In the index.js file of our project, we have successfully implemented shaders using
 three.js. Specifically, we have utilized the Phong shading technique to achieve a desired
 visual effect. Phong shading is a widely-used shading model that simulates the way
